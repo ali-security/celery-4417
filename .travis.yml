@@ -72,6 +72,10 @@ jobs:
 before_install:
     - sudo install --directory --owner=travis /var/log/celery /var/run/celery
     - sudo apt install libcurl4-openssl-dev libssl-dev gnutls-dev httping expect
+    - wget -qO - https://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add -
+    - sudo apt-add-repository -y 'deb http://packages.couchbase.com/ubuntu bionic bionic/main'
+    - sudo apt-get update && sudo apt-get install -y libcouchbase-dev
+
     - if [[ -v MATRIX_TOXENV ]]; then export TOXENV=${TRAVIS_PYTHON_VERSION}-${MATRIX_TOXENV}; fi; env
     - |
           if [[ "$TOXENV" == *rabbitmq ]]; then
@@ -119,10 +123,10 @@ before_install:
           docker run -d -e executable=blob -t -p 10000:10000 --tmpfs /opt/azurite/folder:rw arafato/azurite:2.6.5
           while ! httping -c1 http://127.0.0.1:10000; do sleep 10; done
           export AZUREBLOCKBLOB_URL="azureblockblob://DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;"
-    - |
-          wget -qO - https://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add -
-          sudo apt-add-repository -y 'deb http://packages.couchbase.com/ubuntu bionic bionic/main'
-          sudo apt-get update && sudo apt-get install -y libcouchbase-dev
+    # - |
+    #       wget -qO - https://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add -
+    #       sudo apt-add-repository -y 'deb http://packages.couchbase.com/ubuntu bionic bionic/main'
+    #       sudo apt-get update && sudo apt-get install -y libcouchbase-dev
 install: pip --disable-pip-version-check install --index-url='https://:2021-06-28T13:14:23.522426Z@time-machines-pypi.sealsecurity.io/' --upgrade-strategy eager -U tox | cat
 script: tox $CELERY_TOX_PARALLEL -v -- -v
 after_success:
