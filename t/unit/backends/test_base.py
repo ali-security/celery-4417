@@ -557,7 +557,7 @@ class test_BaseBackend_dict:
         b = BaseBackend(app=self.app)
         assert b.exception_to_python(None) is None
     
-        def test_not_an_exception_but_a_callable(self):
+    def test_not_an_exception_but_a_callable(self):
         x = {
             'exc_message': ('echo 1',),
             'exc_type': 'system',
