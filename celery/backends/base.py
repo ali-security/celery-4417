@@ -25,7 +25,7 @@ from celery._state import get_current_task
 from celery.app.task import Context
 from celery.exceptions import (BackendGetMetaError, BackendStoreError,
                                ChordError, ImproperlyConfigured,
-                               NotRegistered, TaskRevokedError, TimeoutError)
+                               NotRegistered, TaskRevokedError, SecurityError, TimeoutError)
 from celery.result import (GroupResult, ResultBase, ResultSet,
                            allow_join_result, result_from_tuple)
 from celery.utils.collections import BufferMap
