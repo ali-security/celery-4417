@@ -411,7 +411,7 @@ class test_SessionManager:
         from sqlalchemy.dialects.sqlite import dialect
         from sqlalchemy.exc import DatabaseError
 
-        sqlite = dialect.dbapi()
+        sqlite = dialect.import_dbapi()
         manager = SessionManager()
         engine = manager.get_engine('dburi')
 
