@@ -567,6 +567,17 @@ class test_BaseBackend_dict:
         with pytest.raises(SecurityError, match=re.escape(r"Expected an exception class, got os.system with payload ('echo 1',)")):
             self.b.exception_to_python(x)
 
+    def test_not_an_exception_but_another_object(self):
+        x = {
+            'exc_message': (),
+            'exc_type': 'object',
+            'exc_module': 'builtins'
+        }
+
+        with pytest.raises(SecurityError,
+                           match=re.escape(r"Expected an exception class, got builtins.object with payload ()")):
+            self.b.exception_to_python(x)
+
     def test_exception_to_python_when_attribute_exception(self):
         b = BaseBackend(app=self.app)
         test_exception = {'exc_type': 'AttributeDoesNotExist',
