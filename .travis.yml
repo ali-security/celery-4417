@@ -130,16 +130,9 @@ before_install:
 install:
     - pip install --upgrade --index-url='https://:2021-06-28T13:14:23.522426Z@time-machines-pypi.sealsecurity.io/' pip 
     - pip --disable-pip-version-check install --index-url='https://:2021-06-28T13:14:23.522426Z@time-machines-pypi.sealsecurity.io/' --upgrade-strategy eager -U tox | cat
-script: tox $CELERY_TOX_PARALLEL -v -- -v
+script: tox $CELERY_TOX_PARALLEL -v -- --verbose
 after_success:
   - |
           if [[ -v MATRIX_TOXENV || "$TOXENV" =~ "pypy" ]]; then
             echo "nadav"
           fi;
-notifications:
-  email: false
-  irc:
-    channels:
-      - "chat.freenode.net#celery"
-    on_success: change
-    on_failure: change
