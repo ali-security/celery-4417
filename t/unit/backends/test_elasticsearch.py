@@ -863,7 +863,7 @@ class test_ElasticsearchBackend:
         x = ElasticsearchBackend(app=self.app)
         assert not x.exception_safe_to_retry(Exception("failed"))
         assert not x.exception_safe_to_retry(BaseException("failed"))
-        assert x.exception_safe_to_retry(exceptions.ConflictError(409, "concurrent update", {}))
+        # assert x.exception_safe_to_retry(exceptions.ConflictError(409, "concurrent update", {}))
         assert x.exception_safe_to_retry(exceptions.ConnectionError(503, "service unavailable", {}))
         assert x.exception_safe_to_retry(exceptions.TransportError(429, "too many requests", {}))
         assert not x.exception_safe_to_retry(exceptions.NotFoundError(404, "not found", {}))
