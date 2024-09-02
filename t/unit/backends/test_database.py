@@ -402,7 +402,7 @@ class test_SessionManager:
 
     @patch('celery.backends.database.session.create_engine')
     def test_prepare_models_terminates(self, create_engine):
-        raise pytest.skip()
+        # raise pytest.skip()
         """SessionManager.prepare_models has retry logic because the creation
         of database tables by multiple workers is racy. This test patches
         the used method to always raise, so we can verify that it does
