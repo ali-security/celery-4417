@@ -134,8 +134,7 @@ script: tox $CELERY_TOX_PARALLEL -v -- -v
 after_success:
   - |
           if [[ -v MATRIX_TOXENV || "$TOXENV" =~ "pypy" ]]; then
-              .tox/$TOXENV/bin/coverage xml
-              .tox/$TOXENV/bin/codecov -e TOXENV
+            echo "nadav"
           fi;
 notifications:
   email: false
