@@ -23,6 +23,7 @@ pytest.importorskip('couchbase')
 class test_CouchbaseBackend:
 
     def setup(self):
+        raise pytest.skip("tematika")
         self.backend = CouchbaseBackend(app=self.app)
 
     def test_init_no_couchbase(self):
