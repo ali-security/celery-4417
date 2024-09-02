@@ -1,3 +1,4 @@
+import re
 from contextlib import contextmanager
 from unittest.mock import ANY, MagicMock, Mock, call, patch, sentinel
 
@@ -11,7 +12,7 @@ from celery.app.task import Context, Task
 from celery.backends.base import (BaseBackend, DisabledBackend,
                                   KeyValueStoreBackend, _nulldict)
 from celery.exceptions import (BackendGetMetaError, BackendStoreError,
-                               ChordError, TimeoutError)
+                               ChordError, TimeoutError, SecurityError)
 from celery.result import result_from_tuple
 from celery.utils import serialization
 from celery.utils.functional import pass1
@@ -555,6 +556,16 @@ class test_BaseBackend_dict:
     def test_exception_to_python_when_None(self):
         b = BaseBackend(app=self.app)
         assert b.exception_to_python(None) is None
+    
+        def test_not_an_exception_but_a_callable(self):
+        x = {
+            'exc_message': ('echo 1',),
+            'exc_type': 'system',
+            'exc_module': 'os'
+        }
+
+        with pytest.raises(SecurityError, match=re.escape(r"Expected an exception class, got os.system with payload ('echo 1',)")):
+            self.b.exception_to_python(x)
 
     def test_exception_to_python_when_attribute_exception(self):
         b = BaseBackend(app=self.app)
